@@ -1,34 +1,36 @@
-
+from sys import argv
+import sys
 import json
 from flask import Flask, request, abort
 from requests import get 
 from json import dumps # представить словарь в виде json 
-# dump для обратной операции
 
 
-# get - получить данные со страницы
-# post - передать данные на страницу
+# необходимые email
+email = [
+    "eehzntm5@hotmail.com",
+    "manuruel@yahoo.com" # not found
+    "russellebb912@hotmail.com", # not found
+    "jnkitchener@btinternet.com",
+    "ras-nie@web.de",
+    "ghagen4@gmail.com",
+    "mattdhoey@gmail.com"
+]
 
 # объект класса, с параметром основного файла
 app = Flask(__name__)
 
 # декоратор для отслеживания определенного url адреса
-# декоратор обертка ф-и
 @app.route("/")
 def index():
 
-
-    # Анализируемые параметры URL-адреса (часть URL-адреса после вопросительного знака).
-    # email = request.args.get('eehzntm5@hotmail.com')
-    # if not email:
-    #     # Flask return 404 - google
-    #     return abort(404)
+    if sys.argv[1] not in email:
+        return abort(404)
 
 
-    email = "eehzntm5@hotmail.com"
     # получить md5 hash
     import hashlib
-    hashed_email = hashlib.md5(email.encode('utf-8')).hexdigest()
+    hashed_email = hashlib.md5(sys.argv[1].encode('utf-8')).hexdigest()
 
     # получение json объекта
     response = get(f"https://ru.gravatar.com/{hashed_email}.json")
@@ -62,4 +64,4 @@ def index():
 
 if __name__ == '__main__':
     # запуск локального сервера
-    app.run(debug=True)
+    app.run(debug=True, port=5889)
