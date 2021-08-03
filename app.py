@@ -3,18 +3,7 @@ import json
 from flask import Flask, request, abort
 from requests import get 
 from json import dumps # представить словарь в виде json 
-
-
-# необходимые email
-email = [
-    "eehzntm5@hotmail.com",
-    "manuruel@yahoo.com" # not found
-    "russellebb912@hotmail.com", # not found
-    "jnkitchener@btinternet.com",
-    "ras-nie@web.de",
-    "ghagen4@gmail.com",
-    "mattdhoey@gmail.com"
-]
+from need_email import email
 
 # объект класса, с параметром основного файла
 app = Flask(__name__)
