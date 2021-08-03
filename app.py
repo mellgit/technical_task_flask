@@ -1,4 +1,3 @@
-from sys import argv
 import sys
 import json
 from flask import Flask, request, abort
@@ -24,9 +23,9 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 
+    # проверка входного email
     if sys.argv[1] not in email:
         return abort(404)
-
 
     # получить md5 hash
     import hashlib
@@ -35,30 +34,31 @@ def index():
     # получение json объекта
     response = get(f"https://ru.gravatar.com/{hashed_email}.json")
 
+    # преобразование необходимого json
     if response.status_code == 200:
         need_to_edit = response.json()
-        john: dict = need_to_edit['entry'][0]
-        new_john = {}
-        new_john["id"] = john.get('id', None)
-        new_john["email_hash"] = john.get('hash', None)
-        new_john["url"] = john.get('profileUrl', None)
-        new_john["alias"] = john.get('preferredUsername', None)
-        new_john["thumb"] = john.get('thumbnailUrl', None)
-        new_john["photos"] = john.get('photos', None)
-        new_john["person"] = john.get('name.formatted', None)
-        new_john["location"] = john.get('currentLocation', None)
-        new_john["emails"] = john.get('emails', None)
-        new_john["accounts"] = john.get('accounts', None)
-        new_john["urls"] = john.get('urls', None)
+        result: dict = need_to_edit['entry'][0]
+        new_result = {}
+        new_result["id"] = result.get('id', None)
+        new_result["email_hash"] = result.get('hash', None)
+        new_result["url"] = result.get('profileUrl', None)
+        new_result["alias"] = result.get('preferredUsername', None)
+        new_result["thumb"] = result.get('thumbnailUrl', None)
+        new_result["photos"] = result.get('photos', None)
+        new_result["person"] = result.get('name.formatted', None)
+        new_result["location"] = result.get('currentLocation', None)
+        new_result["emails"] = result.get('emails', None)
+        new_result["accounts"] = result.get('accounts', None)
+        new_result["urls"] = result.get('urls', None)
 
+        # запись в json file
         with open("examle.json", "w") as json_file:
-            json.dump(new_john, json_file, indent=4)
+            json.dump(new_result, json_file, indent=4)
         
+        # красивый вывод
         from pprint import pprint
-        pprint(new_john)
-        return new_john
-
-    
+        pprint(new_result)
+        return new_result
 
     return abort(400)
 
