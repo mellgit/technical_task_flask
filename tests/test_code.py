@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route("/index")
 def index():
+    # Анализируемые параметры URL-адреса (часть URL-адреса после вопросительного знака).
     email = request.args.get('email')
     if not email:
         # Flask return 404 - google
@@ -33,3 +34,9 @@ def index():
 
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
+
+
+# get - получить данные со страницы
+# post - передать данные на страницу
+# from json import dumps # представить словарь в виде json 
+# dump для обратной операции
